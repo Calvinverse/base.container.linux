@@ -23,7 +23,6 @@ RUN apt-get update
 RUN apt-get install unzip
 
 # Set up certificates, our base tools, and Consul.
-# RUN apk add --no-cache ca-certificates curl gnupg libcap openssl
 RUN gpg --keyserver pgp.mit.edu --recv-keys 91A6E7F85D05C65630BEF18951852D87348FFC4C
 RUN mkdir -p /tmp/build
 RUN cd /tmp/build
@@ -37,7 +36,6 @@ RUN grep consul_${CONSUL_VERSION}_linux_amd64.zip consul_${CONSUL_VERSION}_SHA25
 RUN unzip -d /usr/bin consul_${CONSUL_VERSION}_linux_amd64.zip
 RUN cd /tmp
 RUN rm -rf /tmp/build
-#RUN apk del gnupg openssl
 RUN rm -rf /root/.gnupg
 
 # The /etc/consul/data dir is used by Consul to store state. The agent will be started
@@ -46,6 +44,8 @@ RUN rm -rf /root/.gnupg
 RUN mkdir -p /etc/consul/data
 RUN mkdir -p /etc/consul/conf.d
 RUN chown -R consul:consul /etc/consul
+
+COPY consul.json /etc/consul
 
 # Expose the consul data directory as a volume since there's mutable state in there.
 VOLUME /etc/consul/data
@@ -65,8 +65,8 @@ EXPOSE 8400 8500 8600 8600/udp
 
 # Run consul
 RUN mkdir /etc/service/consul
-COPY consul.sh /etc/service/consul/run
-RUN chmod +x /etc/service/consul/run
+#COPY consul.sh /etc/service/consul/run
+#RUN chmod +x /etc/service/consul/run
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
