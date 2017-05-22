@@ -49,9 +49,11 @@ CONSUL_RETRY_JOIN=
 if [ -n "$CONSUL_SERVER_IPS" ]; then
   addresses=$(echo $CONSUL_SERVER_IPS | tr ";" "\n")
 
+  echo "==> processing $addresses for retry-join option..."
+
   for addr in $addresses
   do
-      CONSUL_RETRY_JOIN = "$CONSUL_RETRY_JOIN -retry-join $addr"
+      CONSUL_RETRY_JOIN="$CONSUL_RETRY_JOIN -retry-join $addr"
       echo "==> appending $addr to the retry-join option..."
   done
 fi

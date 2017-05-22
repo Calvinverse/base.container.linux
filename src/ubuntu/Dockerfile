@@ -20,7 +20,10 @@ RUN addgroup consul
 RUN adduser consul --system --ingroup consul
 
 RUN apt-get update
-RUN apt-get install unzip
+RUN apt-get --assume-yes install unzip
+
+# The consul script needs the 'ip' tool which is in the iproute2 package
+RUN apt-get --assume-yes install iproute2
 
 # Set up certificates, our base tools, and Consul.
 RUN gpg --keyserver pgp.mit.edu --recv-keys 91A6E7F85D05C65630BEF18951852D87348FFC4C
@@ -65,8 +68,8 @@ EXPOSE 8400 8500 8600 8600/udp
 
 # Run consul
 RUN mkdir /etc/service/consul
-#COPY consul.sh /etc/service/consul/run
-#RUN chmod +x /etc/service/consul/run
+COPY consul.sh /etc/service/consul/run
+RUN chmod +x /etc/service/consul/run
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
