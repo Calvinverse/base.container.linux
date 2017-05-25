@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if ! mkdir /tmp/consul.lock; then
+    echo "consul process already running"
+    exit 0
+fi
+
 # You can set CONSUL_BIND_INTERFACE to the name of the interface you'd like to
 # bind to and this will look up the IP and pass the proper -bind= option along
 # to Consul.
@@ -81,4 +86,7 @@ CONSUL_CONFIG_DIR=/etc/consul/conf.d
 
 # `/sbin/setuser memcache` runs the given command as the user `memcache`.
 # If you omit that part, the command will be run as root.
-exec /sbin/setuser consul /usr/bin/consul agent -data-dir="$CONSUL_DATA_DIR" -config-file="/etc/consul/consul.json" -config-dir="$CONSUL_CONFIG_DIR" $CONSUL_BIND $CONSUL_CLIENT $CONSUL_SERVER $CONSUL_DATACENTER $CONSUL_RETRY_JOIN $CONSUL_ENCRYPT_KEY >>/var/log/consul.log 2>&1
+exec /sbin/setuser consul /usr/bin/consul agent -data-dir="$CONSUL_DATA_DIR" -config-file="/etc/consul/consul.json" -config-dir="$CONSUL_CONFIG_DIR" $CONSUL_BIND $CONSUL_CLIENT $CONSUL_SERVER $CONSUL_DATACENTER $CONSUL_RETRY_JOIN $CONSUL_ENCRYPT_KEY 2>&1 | logger
+
+echo "Removing lock directory at /tmp/consul.lock ... "
+trap 'rm -rf /tmp/consul.lock' EXIT

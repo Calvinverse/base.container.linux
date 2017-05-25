@@ -1,3 +1,6 @@
 {
+  "disable_host_node_id": true,
+  "enable_syslog": true,
+  "leave_on_terminate": true,
   "log_level": "DEBUG"
 }

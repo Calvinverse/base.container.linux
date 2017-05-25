@@ -14,16 +14,21 @@ ENV CONSUL_VERSION=0.8.3
 # This is the location of the releases.
 ENV HASHICORP_RELEASES=https://releases.hashicorp.com
 
-# Create a consul user and group first so the IDs get set the same way, even as
+# Create a user and group first so the IDs get set the same way, even as
 # the rest of this may change over time.
 RUN addgroup consul
 RUN adduser consul --system --ingroup consul
 
 RUN apt-get update
-RUN apt-get --assume-yes install unzip
 
 # The consul script needs the 'ip' tool which is in the iproute2 package
 RUN apt-get --assume-yes install iproute2
+
+# We need to the dos2unix utility so that we can make sure the shell scripts don't have windows line endings
+RUN apt-get --assume-yes install -y dos2unix
+
+# Install unzip so that we can extract the consul binaries
+RUN apt-get --assume-yes install unzip
 
 # Set up certificates, our base tools, and Consul.
 RUN gpg --keyserver pgp.mit.edu --recv-keys 91A6E7F85D05C65630BEF18951852D87348FFC4C
@@ -69,6 +74,7 @@ EXPOSE 8400 8500 8600 8600/udp
 # Run consul
 RUN mkdir /etc/service/consul
 COPY consul.sh /etc/service/consul/run
+RUN dos2unix /etc/service/consul/run
 RUN chmod +x /etc/service/consul/run
 
 # Clean up APT when done.
