@@ -9,10 +9,10 @@ CMD ["/sbin/my_init"]
 # install consul
 
 # This is the release of Consul to pull in.
-ENV CONSUL_VERSION=0.8.3
+ARG CONSUL_VERSION=0.8.3
 
 # This is the location of the releases.
-ENV HASHICORP_RELEASES=https://releases.hashicorp.com
+ARG HASHICORP_RELEASES=https://releases.hashicorp.com
 
 # Create a user and group first so the IDs get set the same way, even as
 # the rest of this may change over time.
