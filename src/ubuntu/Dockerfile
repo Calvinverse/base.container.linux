@@ -33,15 +33,14 @@ RUN apt-get --assume-yes install unzip
 # Set up certificates, our base tools, and Consul.
 RUN gpg --keyserver pgp.mit.edu --recv-keys 91A6E7F85D05C65630BEF18951852D87348FFC4C
 RUN mkdir -p /tmp/build
-RUN cd /tmp/build
 
-RUN curl -O ${HASHICORP_RELEASES}/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_amd64.zip
-RUN curl -O ${HASHICORP_RELEASES}/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_SHA256SUMS
-RUN curl -O ${HASHICORP_RELEASES}/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_SHA256SUMS.sig
-RUN gpg --batch --verify consul_${CONSUL_VERSION}_SHA256SUMS.sig consul_${CONSUL_VERSION}_SHA256SUMS
-RUN grep consul_${CONSUL_VERSION}_linux_amd64.zip consul_${CONSUL_VERSION}_SHA256SUMS | sha256sum -c
+RUN curl -O ${HASHICORP_RELEASES}/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_amd64.zip -o /tmp/build/consul_${CONSUL_VERSION}_linux_amd64.zip
+RUN curl -O ${HASHICORP_RELEASES}/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_SHA256SUMS -o /tmp/build/consul_${CONSUL_VERSION}_SHA256SUMS
+RUN curl -O ${HASHICORP_RELEASES}/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_SHA256SUMS.sig -o /tmp/build/consul_${CONSUL_VERSION}_SHA256SUMS.sig
+RUN gpg --batch --verify /tmp/build/consul_${CONSUL_VERSION}_SHA256SUMS.sig /tmp/build/consul_${CONSUL_VERSION}_SHA256SUMS
+RUN grep /tmp/build/consul_${CONSUL_VERSION}_linux_amd64.zip /tmp/build/consul_${CONSUL_VERSION}_SHA256SUMS | sha256sum -c
 
-RUN unzip -d /usr/bin consul_${CONSUL_VERSION}_linux_amd64.zip
+RUN unzip -d /usr/bin /tmp/build/consul_${CONSUL_VERSION}_linux_amd64.zip
 RUN cd /tmp
 RUN rm -rf /tmp/build
 RUN rm -rf /root/.gnupg
