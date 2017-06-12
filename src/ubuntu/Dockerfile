@@ -6,14 +6,6 @@ LABEL maintainer "Petrik van der Velde (@petrikvdvelde)"
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
 
-# install consul
-
-# This is the release of Consul to pull in.
-ARG CONSUL_VERSION=0.8.3
-
-# This is the location of the releases.
-ARG HASHICORP_RELEASES=https://releases.hashicorp.com
-
 # Create a user and group first so the IDs get set the same way, even as
 # the rest of this may change over time.
 RUN addgroup consul
@@ -27,22 +19,8 @@ RUN apt-get --assume-yes install iproute2
 # We need to the dos2unix utility so that we can make sure the shell scripts don't have windows line endings
 RUN apt-get --assume-yes install -y dos2unix
 
-# Install unzip so that we can extract the consul binaries
-RUN apt-get --assume-yes install unzip
-
-# Set up certificates, our base tools, and Consul.
-RUN gpg --keyserver pgp.mit.edu --recv-keys 91A6E7F85D05C65630BEF18951852D87348FFC4C
-RUN mkdir -p /tmp/build && \
-    cd /tmp/build && \
-    curl --remote-name ${HASHICORP_RELEASES}/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_amd64.zip && \
-    curl --remote-name ${HASHICORP_RELEASES}/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_SHA256SUMS && \
-    curl --remote-name ${HASHICORP_RELEASES}/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_SHA256SUMS.sig && \
-    gpg --batch --verify consul_${CONSUL_VERSION}_SHA256SUMS.sig consul_${CONSUL_VERSION}_SHA256SUMS && \
-    grep consul_${CONSUL_VERSION}_linux_amd64.zip consul_${CONSUL_VERSION}_SHA256SUMS | sha256sum -c && \
-    unzip -d /usr/bin /tmp/build/consul_${CONSUL_VERSION}_linux_amd64.zip && \
-    cd / && \
-    rm -rf /tmp/build && \
-    rm -rf /root/.gnupg
+# Add Consul.
+COPY consul /usr/bin
 
 # The /etc/consul/data dir is used by Consul to store state. The agent will be started
 # with /etc/consul/conf.d as the configuration directory so you can add additional
