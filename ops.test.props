@@ -96,14 +96,7 @@
     <!--
         Files that should be copied, either from the file system or from a NuGet package.
     -->
-    <ItemGroup Condition=" '@(FilesToCopy)' == '' ">
-        <!--
-        <FilesToCopy Include="">
-            <Destination></Destination>
-        </FilesToCopy>
-        -->
-    </ItemGroup>
-    <ItemGroup Condition=" '@(NuGetFilesToCopy)' == '' ">
+    <ItemGroup Condition=" '$(ShouldLoadNuGetFilesToCopy)' == 'true' ">
         <!--
         <NuGetFilesToCopy Include="My.Cool.NuGet.Package">
             <Include>**/*.*</Include>
@@ -111,10 +104,38 @@
         </NuGetFilesToCopy>
         -->
     </ItemGroup>
-    <ItemGroup>
+    <ItemGroup Condition=" '$(ShouldLoadHttpFilesToCopy)' == 'true' ">
+        <!--
+        <HttpFilesToCopy Include="">
+            <Destination></Destination>
+            <GpgKey></GpgKey>
+            <Hash></Hash>
+            <HashAlgorithm></HashAlgorithm>
+            <HashFile></HashFile>
+            <Password></Password>
+            <SignatureFile></SignatureFile>
+            <UseDefaultCredentials></UseDefaultCredentials>
+            <UserName></UserName>
+            <Unzip></Unzip>
+        </HttpFilesToCopy>
+        -->
+    </ItemGroup>
+    <ItemGroup Condition=" '$(ShouldLoadFilesToCopy)' == 'true' ">
+        <!--
+        <FilesToCopy Include="">
+            <Destination></Destination>
+        </FilesToCopy>
+        -->
+    </ItemGroup>
+    <ItemGroup Condition=" '$(ShouldLoadArchiveFilesToCopy)' == 'true' ">
         <!--
         <ArchiveFilesToCopy Include="">
             <Destination></Destination>
+            <GpgKey></GpgKey>
+            <Hash></Hash>
+            <HashAlgorithm></HashAlgorithm>
+            <HashFile></HashFile>
+            <SignatureFile></SignatureFile>
         </ArchiveFilesToCopy>
         -->
     </ItemGroup>
