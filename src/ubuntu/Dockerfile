@@ -8,16 +8,16 @@ CMD ["/sbin/my_init"]
 
 # Create a user and group first so the IDs get set the same way, even as
 # the rest of this may change over time.
-RUN addgroup consul
-RUN adduser consul --system --ingroup consul
+RUN addgroup consul && adduser consul --system --ingroup consul
 
-RUN apt-get update
-
-# The consul script needs the 'ip' tool which is in the iproute2 package
-RUN apt-get --assume-yes install iproute2
-
-# We need to the dos2unix utility so that we can make sure the shell scripts don't have windows line endings
-RUN apt-get --assume-yes install -y dos2unix
+# Install all the required tools via apt-get in one big statement so that the Docker layer
+# only has the items we need:
+# - The consul script needs the 'ip' tool which is in the iproute2 package
+# - We need to the dos2unix utility so that we can make sure the shell scripts don't have windows line endings
+RUN apt-get update && \
+    apt-get --assume-yes install iproute2 && \
+    apt-get --assume-yes install -y dos2unix && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Add Consul.
 COPY consul /usr/bin
@@ -25,9 +25,9 @@ COPY consul /usr/bin
 # The /etc/consul/data dir is used by Consul to store state. The agent will be started
 # with /etc/consul/conf.d as the configuration directory so you can add additional
 # config files in that location.
-RUN mkdir -p /etc/consul/data
-RUN mkdir -p /etc/consul/conf.d
-RUN chown -R consul:consul /etc/consul
+RUN mkdir -p /etc/consul/data && \
+    mkdir -p /etc/consul/conf.d && \
+    chown -R consul:consul /etc/consul
 
 COPY consul.json /etc/consul
 
@@ -50,8 +50,5 @@ EXPOSE 8400 8500 8600 8600/udp
 # Run consul
 RUN mkdir /etc/service/consul
 COPY consul.sh /etc/service/consul/run
-RUN dos2unix /etc/service/consul/run
-RUN chmod +x /etc/service/consul/run
-
-# Clean up APT when done.
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN dos2unix /etc/service/consul/run && \
+    chmod +x /etc/service/consul/run
