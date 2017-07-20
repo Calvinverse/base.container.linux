@@ -93,8 +93,15 @@
         </HttpFilesToCopy>
     </ItemGroup>
     <ItemGroup Condition=" '$(ShouldLoadFilesToCopy)' == 'true' ">
-        <FilesToCopy Include="$(DirSrc)\ubuntu\**\*">
-            <Destination>$(DirBuildTempUbuntu)</Destination>
+        <FilesToCopy
+            Exclude="$(DirSrc)\ubuntu\Dockerfile"
+            Include="$(DirSrc)\ubuntu\**\*">
+            <Destination>$(DirBuildTempUbuntuSrc)</Destination>
+        </FilesToCopy>
+        <FilesToCopy
+            Exclude="$(DirTest)\ubuntu\Dockerfile"
+            Include="$(DirTest)\ubuntu\**\*">
+            <Destination>$(DirBuildTempUbuntuTest)</Destination>
         </FilesToCopy>
     </ItemGroup>
     <ItemGroup Condition=" '$(ShouldLoadArchiveFilesToCopy)' == 'true' ">
@@ -148,17 +155,18 @@
         Additional parameters can be provided through the 'TemplateTokens' ItemGroup below.
     -->
     <ItemGroup Condition=" '$(ShouldLoadBuildFilesToGenerate)' == 'true' ">
-        <!--
         <BuildFilesToGenerate
-            Condition=" '$(DirBuildTemp)' != '' "
-            Include="$(DirBuildTemp)\MyFile.txt">
+            Condition=" '$(DirBuildTempUbuntuSrc)' != '' "
+            Include="$(DirBuildTempUbuntuSrc)\Dockerfile">
             <Encoding>UTF-8</Encoding>
-            <Expression>(MyRegex)</Expression>
-            <ReplacementValue>MyAdditionalTemplateValue</ReplacementValue>
-            <Template>$(DirTemplates)\MyOtherTemplatefile.txt</Template>
-            <Token>MyAdditionalTemplateParameter</Token>
+            <Template>$(DirSrc)\ubuntu\Dockerfile</Template>
         </BuildFilesToGenerate>
-        -->
+        <BuildFilesToGenerate
+            Condition=" '$(DirBuildTempUbuntuTest)' != '' "
+            Include="$(DirBuildTempUbuntuTest)\Dockerfile">
+            <Encoding>UTF-8</Encoding>
+            <Template>$(DirTest)\ubuntu\Dockerfile</Template>
+        </BuildFilesToGenerate>
     </ItemGroup>
 
 

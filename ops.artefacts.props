@@ -159,8 +159,11 @@
         **** DOCKER - PACK ****
     -->
     <ItemGroup Condition=" '$(ShouldLoadDockerImagesToBuild)' == 'true' ">
-        <DockerImagesToBuild Include="$(DirBuildTempUbuntu)">
+        <DockerImagesToBuild Include="$(DirBuildTempUbuntuSrc)">
             <Tags>192.168.100.2:5000/${CompanyNameInFilePath}/resource.consul.ubuntu:${VersionSemantic}</Tags>
+        </DockerImagesToBuild>
+        <DockerImagesToBuild Include="$(DirBuildTempUbuntuTest)">
+            <Tags>192.168.100.2:5000/${CompanyNameInFilePath}/test.resource.consul.ubuntu:${VersionSemantic}</Tags>
         </DockerImagesToBuild>
     </ItemGroup>
 

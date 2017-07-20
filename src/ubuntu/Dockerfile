@@ -1,7 +1,7 @@
 # Use phusion/baseimage (https://github.com/phusion/baseimage-docker) as base image so that
 # we have a proper Unix init system (see http://blog.phusion.nl/2015/01/20/docker-and-the-pid-1-zombie-reaping-problem/)
 FROM phusion/baseimage:0.9.21
-LABEL maintainer "Petrik van der Velde (@petrikvdvelde)"
+LABEL maintainer "${CompanyName} (${CompanyUrl})"
 
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
@@ -17,9 +17,12 @@ RUN addgroup consul && adduser consul --system --ingroup consul
 RUN apt-get update && \
     apt-get --assume-yes install iproute2 && \
     apt-get --assume-yes install -y dos2unix && \
+    apt-get --assume-yes install dnsmasq && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Add Consul.
+#
+# INSTALL & CONFIGURE CONSUL
+#
 COPY consul /usr/bin
 
 # The /etc/consul/data dir is used by Consul to store state. The agent will be started
@@ -52,3 +55,9 @@ RUN mkdir /etc/service/consul
 COPY consul.sh /etc/service/consul/run
 RUN dos2unix /etc/service/consul/run && \
     chmod +x /etc/service/consul/run
+
+#
+# INSTALL & CONFIGURE DNSMASQ
+#
+
+RUN mkdir /etc/dnsmasq.d
