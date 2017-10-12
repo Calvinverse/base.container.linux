@@ -121,11 +121,11 @@
         -->
     </ItemGroup>
     <ItemGroup Condition=" '$(ShouldLoadFilesToCopy)' == 'true' ">
-        <!--
-        <FilesToCopy Include="">
-            <Destination></Destination>
+        <FilesToCopy
+            Exclude="$(DirTests)\Dockerfile"
+            Include="$(DirTests)\**\*">
+            <Destination>$(DirBuildTempTest)</Destination>
         </FilesToCopy>
-        -->
     </ItemGroup>
     <ItemGroup Condition=" '$(ShouldLoadArchiveFilesToCopy)' == 'true' ">
         <!--
@@ -158,15 +158,12 @@
         Additional parameters can be provided through the 'TemplateTokens' ItemGroup below.
     -->
     <ItemGroup>
-        <!--<TestFilesToGenerate
-            Condition=" '$(DirBuildTemp)' != '' "
-            Include="$(DirBuildTemp)\MyFile.txt">
-            <<Encoding>UTF-8</Encoding>
-            <Expression>(MyRegex)</Expression>
-            <ReplacementValue>MyAdditionalTemplateValue</ReplacementValue>
-            <Template>$(DirTemplates)\MyOtherTemplatefile.txt</Template>
-            <Token>MyAdditionalTemplateParameter</Token>
-        </TestFilesToGenerate>-->
+        <TestFilesToGenerate
+            Condition=" '$(DirBuildTempTest)' != '' "
+            Include="$(DirBuildTempTest)\Dockerfile">
+            <Encoding>UTF-8</Encoding>
+            <Template>$(DirTest)\Dockerfile</Template>
+        </TestFilesToGenerate>
     </ItemGroup>
 
 
