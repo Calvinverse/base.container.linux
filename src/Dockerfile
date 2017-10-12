@@ -16,26 +16,28 @@ RUN addgroup consul && adduser consul --system --ingroup consul
 # - We need to the dos2unix utility so that we can make sure the shell scripts don't have windows line endings
 RUN apt-get update && \
     apt-get --assume-yes install iproute2 && \
-    apt-get --assume-yes install -y dos2unix && \
-    apt-get --assume-yes install dnsmasq && \
+    apt-get --assume-yes install dos2unix && \
+    apt-get --assume-yes install unbound=1.5.8-1ubuntu1 && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 #
 # INSTALL & CONFIGURE CONSUL
 #
-COPY consul /usr/bin
 
 # The /etc/consul/data dir is used by Consul to store state. The agent will be started
 # with /etc/consul/conf.d as the configuration directory so you can add additional
 # config files in that location.
 RUN mkdir -p /etc/consul/data && \
     mkdir -p /etc/consul/conf.d && \
-    chown -R consul:consul /etc/consul
+    chown -R consul:consul /etc/consul && \
+    mkdir /etc/service/consul
 
+COPY consul /usr/bin
 COPY consul.json /etc/consul
+COPY consul.sh /etc/service/consul/run
 
-# Expose the consul data directory as a volume since there's mutable state in there.
-VOLUME /etc/consul/data
+RUN dos2unix /etc/service/consul/run && \
+    chmod +x /etc/service/consul/run
 
 # Server RPC is used for communication between Consul clients and servers for internal
 # request forwarding.
@@ -50,14 +52,26 @@ EXPOSE 8301 8301/udp 8302 8302/udp
 # use to interact with Consul.
 EXPOSE 8400 8500 8600 8600/udp
 
-# Run consul
-RUN mkdir /etc/service/consul
-COPY consul.sh /etc/service/consul/run
-RUN dos2unix /etc/service/consul/run && \
-    chmod +x /etc/service/consul/run
 
 #
-# INSTALL & CONFIGURE DNSMASQ
+# INSTALL & CONFIGURE UNBOUND
 #
 
-RUN mkdir /etc/dnsmasq.d
+RUN mkdir /etc/service/unbound
+
+COPY unbound.conf /etc/unbound
+COPY unbound.sh /etc/service/unbound/run
+
+RUN dos2unix /etc/unbound/unbound.conf && \
+    dos2unix /etc/service/unbound/run && \
+    chmod +x /etc/service/unbound/run
+
+# Unbound listens on the DNS port
+EXPOSE 53 53/udp
+
+#
+# RESOLVE DNS FROM THE LOCALHOST
+#
+
+COPY dhclient.conf /etc/dhcp
+RUN dos2unix /etc/dhcp/dhclient.conf

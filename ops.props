@@ -174,9 +174,8 @@
 
         <!-- The directory that will contain all the temporary files needed during the build process -->
         <!-- <DirBuildTemp>$(DirBuild)\temp</DirBuildTemp> -->
-        <DirBuildTempUbuntu>$(DirBuildTemp)\ubuntu</DirBuildTempUbuntu>
-        <DirBuildTempUbuntuSrc>$(DirBuildTempUbuntu)\src</DirBuildTempUbuntuSrc>
-        <DirBuildTempUbuntuTest>$(DirBuildTempUbuntu)\test</DirBuildTempUbuntuTest>
+        <DirBuildTempSrc>$(DirBuildTemp)\src</DirBuildTempSrc>
+        <DirBuildTempTest>$(DirBuildTemp)\test</DirBuildTempTest>
 
         <!-- The directory that will contain all the test files generated during the test process -->
         <!-- <DirBuildTest>$(DirBuild)\tests</DirBuildTest> -->

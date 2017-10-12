@@ -84,7 +84,7 @@
     </ItemGroup>
     <ItemGroup Condition=" '$(ShouldLoadHttpFilesToCopy)' == 'true' ">
         <HttpFilesToCopy Include="https://releases.hashicorp.com/consul/${VersionConsul}/consul_${VersionConsul}_linux_amd64.zip">
-            <Destination>$(DirBuildTempUbuntu)</Destination>
+            <Destination>$(DirBuildTempSrc)</Destination>
             <GpgKey>91A6E7F85D05C65630BEF18951852D87348FFC4C</GpgKey>
             <HashAlgorithm>SHA256</HashAlgorithm>
             <HashFile>https://releases.hashicorp.com/consul/${VersionConsul}/consul_${VersionConsul}_SHA256SUMS</HashFile>
@@ -94,14 +94,9 @@
     </ItemGroup>
     <ItemGroup Condition=" '$(ShouldLoadFilesToCopy)' == 'true' ">
         <FilesToCopy
-            Exclude="$(DirSrc)\ubuntu\Dockerfile"
-            Include="$(DirSrc)\ubuntu\**\*">
-            <Destination>$(DirBuildTempUbuntuSrc)</Destination>
-        </FilesToCopy>
-        <FilesToCopy
-            Exclude="$(DirTest)\ubuntu\Dockerfile"
-            Include="$(DirTest)\ubuntu\**\*">
-            <Destination>$(DirBuildTempUbuntuTest)</Destination>
+            Exclude="$(DirSrc)\Dockerfile"
+            Include="$(DirSrc)\**\*">
+            <Destination>$(DirBuildTempSrc)</Destination>
         </FilesToCopy>
     </ItemGroup>
     <ItemGroup Condition=" '$(ShouldLoadArchiveFilesToCopy)' == 'true' ">
@@ -156,16 +151,10 @@
     -->
     <ItemGroup Condition=" '$(ShouldLoadBuildFilesToGenerate)' == 'true' ">
         <BuildFilesToGenerate
-            Condition=" '$(DirBuildTempUbuntuSrc)' != '' "
-            Include="$(DirBuildTempUbuntuSrc)\Dockerfile">
+            Condition=" '$(DirBuildTempSrc)' != '' "
+            Include="$(DirBuildTempSrc)\Dockerfile">
             <Encoding>UTF-8</Encoding>
-            <Template>$(DirSrc)\ubuntu\Dockerfile</Template>
-        </BuildFilesToGenerate>
-        <BuildFilesToGenerate
-            Condition=" '$(DirBuildTempUbuntuTest)' != '' "
-            Include="$(DirBuildTempUbuntuTest)\Dockerfile">
-            <Encoding>UTF-8</Encoding>
-            <Template>$(DirTest)\ubuntu\Dockerfile</Template>
+            <Template>$(DirSrc)\Dockerfile</Template>
         </BuildFilesToGenerate>
     </ItemGroup>
 
