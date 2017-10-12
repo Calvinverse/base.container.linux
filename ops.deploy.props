@@ -177,8 +177,7 @@
         **** PUSHTO - DOCKER ****
     -->
     <ItemGroup Condition=" '$(ShouldLoadDockerImagesToPush)' == 'true' ">
-        <DockerImagesToPush Include="192.168.100.2:5000/${CompanyNameInFilePath}/resource.consul.ubuntu:${VersionSemantic}" />
-        <DockerImagesToPush Include="192.168.100.2:5000/${CompanyNameInFilePath}/test.resource.consul.ubuntu:${VersionSemantic}" />
+        <DockerImagesToPush Include="192.168.6.76:5000/${CompanyNameInFilePath}/resource.consul.ubuntu:${VersionSemantic}" />
     </ItemGroup>
 
 
