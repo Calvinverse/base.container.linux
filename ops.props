@@ -549,6 +549,10 @@
 
     <!-- Overrides for the tools paths -->
     <PropertyGroup>
+        <!--
+            The full path and version of the GPG command line executable. If not defined the packages directory is searched.
+        -->
+        <ToolsExternalGpgPath>gpg</ToolsExternalGpgPath>
     </PropertyGroup>
 
 
