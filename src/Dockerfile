@@ -57,7 +57,8 @@ EXPOSE 8400 8500 8600 8600/udp
 # INSTALL & CONFIGURE UNBOUND
 #
 
-RUN mkdir /etc/service/unbound
+RUN mkdir /etc/service/unbound && \
+    mkdir /etc/unbound.d
 
 COPY unbound.conf /etc/unbound
 COPY unbound.sh /etc/service/unbound/run
