@@ -1,6 +1,6 @@
 # Use phusion/baseimage (https://github.com/phusion/baseimage-docker) as base image so that
 # we have a proper Unix init system (see http://blog.phusion.nl/2015/01/20/docker-and-the-pid-1-zombie-reaping-problem/)
-FROM phusion/baseimage:0.9.21
+FROM phusion/baseimage:0.9.22
 LABEL maintainer "${CompanyName} (${CompanyUrl})"
 
 # Use baseimage-docker's init system.
