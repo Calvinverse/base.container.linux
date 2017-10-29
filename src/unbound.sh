@@ -9,6 +9,10 @@ if [ -n "$CONSUL_DOMAIN_NAME" ]; then
   echo "  name: \"$CONSUL_DOMAIN_NAME\"" >> /etc/unbound.d/unbound_zones.conf
   echo "  stub-addr: 127.0.0.1@8600" >> /etc/unbound.d/unbound_zones.conf
 
+  echo "stub-zone:" >> /etc/unbound.d/unbound_zones.conf
+  echo "  name: \"ad.calvinverse.net\"" >> /etc/unbound.d/unbound_zones.conf
+  echo "  stub-addr: 192.168.2.5" >> /etc/unbound.d/unbound_zones.conf
+
   echo "forward-zone:" >> /etc/unbound.d/unbound_zones.conf
   echo "  name: \".\"" >> /etc/unbound.d/unbound_zones.conf
   echo "  forward-addr: 192.168.6.1" >> /etc/unbound.d/unbound_zones.conf
