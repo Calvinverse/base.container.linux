@@ -15,7 +15,7 @@ if [ -n "$CONSUL_DOMAIN_NAME" ]; then
 
   echo "forward-zone:" >> /etc/unbound.d/unbound_zones.conf
   echo "  name: \".\"" >> /etc/unbound.d/unbound_zones.conf
-  echo "  forward-addr: 192.168.6.1" >> /etc/unbound.d/unbound_zones.conf
+  echo "  forward-addr: 192.168.2.1" >> /etc/unbound.d/unbound_zones.conf
 
   echo "==> creating the unbound_zones.conf file ..."
 fi
