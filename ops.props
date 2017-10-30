@@ -174,7 +174,8 @@
 
         <!-- The directory that will contain all the temporary files needed during the build process -->
         <!-- <DirBuildTemp>$(DirBuild)\temp</DirBuildTemp> -->
-        <DirBuildTempUbuntu>$(DirBuildTemp)\ubuntu</DirBuildTempUbuntu>
+        <DirBuildTempSrc>$(DirBuildTemp)\src</DirBuildTempSrc>
+        <DirBuildTempTest>$(DirBuildTemp)\test</DirBuildTempTest>
 
         <!-- The directory that will contain all the test files generated during the test process -->
         <!-- <DirBuildTest>$(DirBuild)\tests</DirBuildTest> -->
@@ -511,7 +512,7 @@
     -->
     <ItemGroup Condition=" '$(ShouldLoadTemplateTokens)' == 'true' ">
         <TemplateTokens Include="VersionConsul">
-            <ReplacementValue>0.8.4</ReplacementValue>
+            <ReplacementValue>1.0.0</ReplacementValue>
         </TemplateTokens>
     </ItemGroup>
 
@@ -548,6 +549,10 @@
 
     <!-- Overrides for the tools paths -->
     <PropertyGroup>
+        <!--
+            The full path and version of the GPG command line executable. If not defined the packages directory is searched.
+        -->
+        <ToolsExternalGpgPath>gpg</ToolsExternalGpgPath>
     </PropertyGroup>
 
 
