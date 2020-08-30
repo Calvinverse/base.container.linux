@@ -19,10 +19,11 @@ RUN addgroup otel && adduser otel --system --ingroup otel
 # - The consul script needs the 'ip' tool which is in the iproute2 package
 # - We need to the dos2unix utility so that we can make sure the shell scripts don't have windows line endings
 RUN apt-get update && \
+    apk --no-cache add ca-certificates && \
+    apt-get --assume yes install apt-transport-https ca-certificates curl gnupg-agent software-properties-common \
     apt-get --assume-yes install iproute2 && \
     apt-get --assume-yes install dos2unix && \
-    apt-get --assume-yes install unbound=1.5.8-1ubuntu1 && \
-    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    apt-get --assume-yes install unbound=1.5.8-1ubuntu1
 
 #
 # INSTALL & CONFIGURE CONSUL
