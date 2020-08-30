@@ -10,6 +10,10 @@ CMD ["/sbin/my_init"]
 # the rest of this may change over time.
 RUN addgroup consul && adduser consul --system --ingroup consul
 
+# Create a user and group first so the IDs get set the same way, even as
+# the rest of this may change over time.
+RUN addgroup otel && adduser otel --system --ingroup otel
+
 # Install all the required tools via apt-get in one big statement so that the Docker layer
 # only has the items we need:
 # - The consul script needs the 'ip' tool which is in the iproute2 package
@@ -52,6 +56,24 @@ EXPOSE 8301 8301/udp 8302 8302/udp
 # use to interact with Consul.
 EXPOSE 8400 8500 8600 8600/udp
 
+#
+# INSTALL & CONFIGURE OPENTELEMETRY
+#
+
+# The /etc/consul/data dir is used by Consul to store state. The agent will be started
+# with /etc/consul/conf.d as the configuration directory so you can add additional
+# config files in that location.
+RUN mkdir -p /etc/otel && \
+    chown -R otel:otel /etc/otel && \
+    mkdir /etc/service/otel
+
+COPY otelcol_linux_amd64 /usr/bin/otel
+COPY otel-agent.yaml /etc/otel
+
+COPY otel.sh /etc/service/otel/run
+
+RUN dos2unix /etc/service/otel/run && \
+    chmod +x /etc/service/otel/run
 
 #
 # INSTALL & CONFIGURE UNBOUND

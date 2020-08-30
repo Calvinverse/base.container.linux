@@ -87,6 +87,10 @@
             <Destination>$(DirBuildTempSrc)</Destination>
             <Unzip>true</Unzip>
         </HttpFilesToCopy>
+        <HttpFilesToCopy Include="https://github.com/open-telemetry/opentelemetry-collector/releases/download/v${VersionOpenTelemetry}/otelcol_linux_amd64">
+            <Destination>$(DirBuildTempSrc)</Destination>
+            <Unzip>false</Unzip>
+        </HttpFilesToCopy>
     </ItemGroup>
     <ItemGroup Condition=" '$(ShouldLoadFilesToCopy)' == 'true' ">
         <FilesToCopy
