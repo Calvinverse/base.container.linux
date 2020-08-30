@@ -512,7 +512,7 @@
     -->
     <ItemGroup Condition=" '$(ShouldLoadTemplateTokens)' == 'true' ">
         <TemplateTokens Include="VersionConsul">
-            <ReplacementValue>1.0.0</ReplacementValue>
+            <ReplacementValue>1.8.3</ReplacementValue>
         </TemplateTokens>
     </ItemGroup>
 
