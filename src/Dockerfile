@@ -53,9 +53,9 @@ EXPOSE 8300
 # servers in all datacenters.
 EXPOSE 8301 8301/udp 8302 8302/udp
 
-# CLI, HTTP, and DNS (both TCP and UDP) are the primary interfaces that applications
+# HTTP, HTTPS, GRPC, and DNS (both TCP and UDP) are the primary interfaces that applications
 # use to interact with Consul.
-EXPOSE 8400 8500 8600 8600/udp
+EXPOSE 8500 8501 8502 8600 8600/udp
 
 #
 # INSTALL & CONFIGURE OPENTELEMETRY
