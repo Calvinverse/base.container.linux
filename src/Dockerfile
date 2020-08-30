@@ -58,6 +58,16 @@ EXPOSE 8301 8301/udp 8302 8302/udp
 EXPOSE 8500 8501 8502 8600 8600/udp
 
 #
+# INSTALL & CONFIGURE ENVOY
+#
+
+RUN curl -sL 'https://getenvoy.io/gpg' | sudo apt-key add - && \
+    sudo add-apt-repository "deb [arch=amd64] https://dl.bintray.com/tetrate/getenvoy-deb $(lsb_release -cs) stable" && \
+    sudo apt-get update && sudo apt-get install -y getenvoy-envoy
+
+# Service?
+
+#
 # INSTALL & CONFIGURE OPENTELEMETRY
 #
 
