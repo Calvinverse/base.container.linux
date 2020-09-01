@@ -19,11 +19,11 @@ RUN addgroup otel && adduser otel --system --ingroup otel
 # - The consul script needs the 'ip' tool which is in the iproute2 package
 # - We need to the dos2unix utility so that we can make sure the shell scripts don't have windows line endings
 RUN apt-get update && \
-    apk --no-cache add ca-certificates && \
-    apt-get --assume yes install apt-transport-https ca-certificates curl gnupg-agent software-properties-common \
-    apt-get --assume-yes install iproute2 && \
-    apt-get --assume-yes install dos2unix && \
-    apt-get --assume-yes install unbound=1.5.8-1ubuntu1
+    apt-get install -y ca-certificates && \
+    apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common && \
+    apt-get install -y iproute2 && \
+    apt-get install -y dos2unix && \
+    apt-get install -y unbound
 
 #
 # INSTALL & CONFIGURE CONSUL
@@ -34,6 +34,7 @@ RUN apt-get update && \
 # config files in that location.
 RUN mkdir -p /etc/consul/data && \
     mkdir -p /etc/consul/conf.d && \
+    mkdir -p /etc/consul/conf.d/certs && \
     chown -R consul:consul /etc/consul && \
     mkdir /etc/service/consul
 
@@ -61,9 +62,9 @@ EXPOSE 8500 8501 8502 8600 8600/udp
 # INSTALL & CONFIGURE ENVOY
 #
 
-RUN curl -sL 'https://getenvoy.io/gpg' | sudo apt-key add - && \
-    sudo add-apt-repository "deb [arch=amd64] https://dl.bintray.com/tetrate/getenvoy-deb $(lsb_release -cs) stable" && \
-    sudo apt-get update && sudo apt-get install -y getenvoy-envoy
+RUN curl -sL 'https://getenvoy.io/gpg' | apt-key add - && \
+    add-apt-repository "deb [arch=amd64] https://dl.bintray.com/tetrate/getenvoy-deb $(lsb_release -cs) stable" && \
+    apt-get update && apt-get install -y getenvoy-envoy
 
 # Service?
 
@@ -87,6 +88,15 @@ RUN dos2unix /etc/service/otel/run && \
     chmod +x /etc/service/otel/run
 
 #
+# INSTALL & CONFIGURE TELEGRAF
+#
+
+# ???
+# - Also configure Consul telemetry
+# - Grab envoy metrics
+# - Grab OpenTelemetry metrics
+
+#
 # INSTALL & CONFIGURE UNBOUND
 #
 
@@ -107,5 +117,12 @@ EXPOSE 53 53/udp
 # RESOLVE DNS FROM THE LOCALHOST
 #
 
-COPY dhclient.conf /etc/dhcp
-RUN dos2unix /etc/dhcp/dhclient.conf
+# COPY dhclient.conf /etc/dhcp
+
+# RUN dos2unix /etc/dhcp/dhclient.conf
+
+#
+# CLEAN UP
+#
+
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
