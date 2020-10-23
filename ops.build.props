@@ -98,6 +98,10 @@
             Include="$(DirSrc)\**\*">
             <Destination>$(DirBuildTempSrc)</Destination>
         </FilesToCopy>
+        <FilesToCopy
+            Include="$(DirConsulCertificates)\consulverse-agent-ca.pem">
+            <Destination>$(DirBuildTempSrc)</Destination>
+        </FilesToCopy>
     </ItemGroup>
     <ItemGroup Condition=" '$(ShouldLoadArchiveFilesToCopy)' == 'true' ">
         <!--

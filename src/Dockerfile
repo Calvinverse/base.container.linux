@@ -41,6 +41,7 @@ RUN mkdir -p /etc/consul/data && \
 COPY consul /usr/bin
 COPY consul.json /etc/consul
 COPY consul.sh /etc/service/consul/run
+COPY consulverse-agent-ca.pem /etc/consul/conf.d/certs/bundle.crt
 
 RUN dos2unix /etc/service/consul/run && \
     chmod +x /etc/service/consul/run
@@ -56,7 +57,7 @@ EXPOSE 8301 8301/udp 8302 8302/udp
 
 # HTTP, HTTPS, GRPC, and DNS (both TCP and UDP) are the primary interfaces that applications
 # use to interact with Consul.
-EXPOSE 8500 8501 8502 8600 8600/udp
+EXPOSE 8500 8501 8502
 
 #
 # INSTALL & CONFIGURE ENVOY
@@ -109,9 +110,6 @@ COPY unbound.sh /etc/service/unbound/run
 RUN dos2unix /etc/unbound/unbound.conf && \
     dos2unix /etc/service/unbound/run && \
     chmod +x /etc/service/unbound/run
-
-# Unbound listens on the DNS port
-EXPOSE 53 53/udp
 
 #
 # RESOLVE DNS FROM THE LOCALHOST
