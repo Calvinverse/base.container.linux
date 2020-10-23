@@ -12,8 +12,9 @@ if [ -n "$CONSUL_BIND_INTERFACE" ]; then
   fi
 
   CONSUL_BIND="-bind=$CONSUL_BIND_ADDRESS"
-  echo "==> Found address '$CONSUL_BIND_ADDRESS' for interface '$CONSUL_BIND_INTERFACE', setting bind option..."
 fi
+
+echo "==> Using consul bind address '$CONSUL_BIND'"
 
 # You can set CONSUL_CLIENT_INTERFACE to the name of the interface you'd like to
 # bind client intefaces (HTTP, DNS, and RPC) to and this will look up the IP and
@@ -27,8 +28,9 @@ if [ -n "$CONSUL_CLIENT_INTERFACE" ]; then
   fi
 
   CONSUL_CLIENT="-client=$CONSUL_CLIENT_ADDRESS"
-  echo "==> Found address '$CONSUL_CLIENT_ADDRESS' for interface '$CONSUL_CLIENT_INTERFACE', setting client option..."
 fi
+
+echo "==> Using consul client address '$CONSUL_CLIENT'"
 
 # See if a datacenter is specified
 CONSUL_DATACENTER=
@@ -37,12 +39,16 @@ if [ -n "$CONSUL_DATACENTER_NAME" ]; then
   echo "==> setting datacenter option..."
 fi
 
+echo "==> Consul datacenter '$CONSUL_DATACENTER'"
+
 # See if a domain is specified
 CONSUL_DOMAIN=
 if [ -n "$CONSUL_DOMAIN_NAME" ]; then
   CONSUL_DOMAIN="-domain=$CONSUL_DOMAIN_NAME"
   echo "==> setting domain option..."
 fi
+
+echo "==> Consul domain '$CONSUL_DOMAIN'"
 
 # See if a retry-join is specified
 CONSUL_RETRY_JOIN=
@@ -57,6 +63,8 @@ if [ -n "$CONSUL_SERVER_IPS" ]; then
       echo "==> appending $addr to the retry-join option..."
   done
 fi
+
+echo "==> Consul retry-join '$CONSUL_RETRY_JOIN'"
 
 CONSUL_ENCRYPT_KEY=
 if [ -n "$CONSUL_ENCRYPT" ]; then
