@@ -162,12 +162,12 @@
         <DockerImagesToBuild
             Condition=" '$(IsBuild)' == 'true' "
             Include="$(DirBuildTempSrc)">
-            <Tags>192.168.2.30:5000/${CompanyNameInFilePath}/resource.consul.ubuntu:${VersionSemantic}</Tags>
+            <Tags>testcalvinverse.azurecr.io/base.container.linux:${VersionSemantic};testcalvinverse.azurecr.io/base.container.linux:latest</Tags>
         </DockerImagesToBuild>
         <DockerImagesToBuild
             Condition=" '$(IsTest)' == 'true' "
             Include="$(DirBuildTempTest)">
-            <Tags>192.168.2.30:5000/${CompanyNameInFilePath}/test.resource.consul.ubuntu:${VersionSemantic}</Tags>
+            <Tags>test.base.container.linux:${VersionSemantic}</Tags>
         </DockerImagesToBuild>
     </ItemGroup>
 
