@@ -10,7 +10,7 @@
             * Copyrights
             * API documentation
         -->
-        <ProductName>Resource.Consul.Container</ProductName>
+        <ProductName>Base.Container.Linux</ProductName>
 
         <!--
             The name of the product that can be used as part of a file path. This is for instance used for:
@@ -23,13 +23,13 @@
             * Finding the correct assemblies and namespaces for unit testing and coverage reporting
             * Generated code files that contain namespaces
         -->
-        <ProductNamespace>Resource.Consul.Container</ProductNamespace>
+        <ProductNamespace>Base.Container.Linux</ProductNamespace>
 
         <!--
             The URL of the product website. This is for instance used for:
             * nuspec files
         -->
-        <ProductUrl>https://github.com/Calvinverse/resource.consul.container</ProductUrl>
+        <ProductUrl>https://github.com/Calvinverse/base.container.linux</ProductUrl>
 
         <!--
             The first year the product was available / created. This is for instance used for:
@@ -65,7 +65,7 @@
             The full URL to the GIT repository. Can include the '%GitHubToken%' environment variable for authenticated
             connection to the repository, e.g. https://%GitHubToken%:@github.com/MyUser/MyProject.git
         -->
-        <GitRemoteRepository>https://github.com/Calvinverse/resource.consul.container.git</GitRemoteRepository>
+        <GitRemoteRepository>https://github.com/Calvinverse/base.container.linux.git</GitRemoteRepository>
     </PropertyGroup>
 
     <!--
@@ -512,7 +512,10 @@
     -->
     <ItemGroup Condition=" '$(ShouldLoadTemplateTokens)' == 'true' ">
         <TemplateTokens Include="VersionConsul">
-            <ReplacementValue>1.0.0</ReplacementValue>
+            <ReplacementValue>1.8.3</ReplacementValue>
+        </TemplateTokens>
+        <TemplateTokens Include="VersionOpenTelemetry">
+            <ReplacementValue>0.9.0</ReplacementValue>
         </TemplateTokens>
     </ItemGroup>
 
@@ -568,7 +571,7 @@
     -->
 
     <PropertyGroup>
-        <OpsConfigurationVersion>0.3</OpsConfigurationVersion>
+        <OpsConfigurationVersion>1.0</OpsConfigurationVersion>
     </PropertyGroup>
 
     <!--
@@ -576,7 +579,7 @@
         NuGet if no package is specified in the packages.config file.
     -->
     <PropertyGroup>
-        <PackageMinimumVersion Condition=" '$(PackageMinimumVersion)' == '' ">0.3.0</PackageMinimumVersion>
-        <PackageMaximumVersion Condition=" '$(PackageMaximumVersion)' == '' ">0.4.0</PackageMaximumVersion>
+        <PackageMinimumVersion Condition=" '$(PackageMinimumVersion)' == '' ">1.2.0</PackageMinimumVersion>
+        <PackageMaximumVersion Condition=" '$(PackageMaximumVersion)' == '' ">2.0.0</PackageMaximumVersion>
     </PropertyGroup>
 </Project>
