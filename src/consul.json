@@ -13,7 +13,7 @@
   "disable_host_node_id": true,
   "disable_remote_exec": true,
   "disable_update_check": true,
-  "discard_update_check": true,
+  "discard_check_output": true,
 
   "dns_config": {
     "allow_stale": true,
@@ -29,7 +29,7 @@
   "enable_syslog": true,
 
   "leave_on_terminate": true,
-  "log_level": "DEBUG",
+  "log_level": "INFO",
 
   "ports": {
     "server": 8300,
