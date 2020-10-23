@@ -12,7 +12,7 @@ exporters:
     endpoint: "otel-collector:55678"
     insecure: true
   logging:
-    loglevel: debug
+    loglevel: info
 
 processors:
   batch:
